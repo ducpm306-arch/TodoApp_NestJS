@@ -10,7 +10,7 @@ export class TaskController {
     constructor(private readonly taskService: TaskService) {}
 
     @Get()
-    getTasks(): ResponseData<Task[]> {
+    async getTasks(): ResponseData<Task[]> {
         try {
             return new ResponseData<Task[]>(this.taskService.getTasks(), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
@@ -19,7 +19,7 @@ export class TaskController {
     }
 
     @Post()
-    createTasks(@Body() dto: TaskDTO): ResponseData<Task> {
+    async createTasks(@Body() dto: TaskDTO): ResponseData<Task> {
         try {
             return new ResponseData<Task>(this.taskService.createTasks(dto), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
@@ -28,7 +28,7 @@ export class TaskController {
     }
 
     @Get('/:id')
-    detailTasks(@Param('id')id: number): ResponseData<Task> {
+    async detailTasks(@Param('id')id: number): ResponseData<Task> {
         try {
             return new ResponseData<Task>(this.taskService.detailTasks(id) ?? null, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
@@ -37,7 +37,7 @@ export class TaskController {
     }
 
     @Put('/:id')
-    updateTasks(@Body() dto: TaskDTO, @Param('id') id: number): ResponseData<Task> {
+    async updateTasks(@Body() dto: TaskDTO, @Param('id') id: number): ResponseData<Task> {
         try {
             return new ResponseData<Task>(this.taskService.updateTasks(dto, id), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
@@ -46,7 +46,7 @@ export class TaskController {
     }
 
     @Delete('/:id')
-    deleteTasks(@Param('id') id: number): ResponseData<boolean> {
+    async deleteTasks(@Param('id') id: number): ResponseData<boolean> {
         try {
             return new ResponseData<boolean>(this.taskService.deleteTasks(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {

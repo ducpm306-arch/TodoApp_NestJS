@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { TaskDTO } from "src/dto/task.dto";
 import { Task } from "src/models/task.model";
 import { Repository } from "typeorm";
-import { InjectableRepository } from "@nestjs/typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
 export class TaskService {
@@ -17,8 +17,8 @@ export class TaskService {
     }
 
     createTasks(dto: TaskDTO): Promise<Task> {
-        const task: Task = { id: Math.random(), ...dto };
-        return this.taskSRepo.save(task);
+        const task = this.taskRepo.create(dto);
+        return this.taskRepo.save(task);
     }
 
     detailTasks(id: number): Promise<Task | null> {
