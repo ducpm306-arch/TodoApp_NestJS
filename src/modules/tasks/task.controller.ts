@@ -10,45 +10,45 @@ export class TaskController {
     constructor(private readonly taskService: TaskService) {}
 
     @Get()
-    async getTasks(): ResponseData<Task[]> {
+    async getTasks(): Promise<ResponseData<Task[]>> {
         try {
-            return new ResponseData<Task[]>(this.taskService.getTasks(), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            return new ResponseData<Task[]>( await this.taskService.getTasks(), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<Task[]>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
     @Post()
-    async createTasks(@Body() dto: TaskDTO): ResponseData<Task> {
+    async createTasks(@Body() dto: TaskDTO): Promise<ResponseData<Task>> {
         try {
-            return new ResponseData<Task>(this.taskService.createTasks(dto), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            return new ResponseData<Task>(await this.taskService.createTasks(dto), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<Task>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
     @Get('/:id')
-    async detailTasks(@Param('id')id: number): ResponseData<Task> {
+    async detailTasks(@Param('id')id: number): Promise<ResponseData<Task>> {
         try {
-            return new ResponseData<Task>(this.taskService.detailTasks(id) ?? null, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            return new ResponseData<Task>(await this.taskService.detailTasks(id) ?? null, HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<Task>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
     @Put('/:id')
-    async updateTasks(@Body() dto: TaskDTO, @Param('id') id: number): ResponseData<Task> {
+    async updateTasks(@Body() dto: TaskDTO, @Param('id') id: number): Promise<ResponseData<Task>> {
         try {
-            return new ResponseData<Task>(this.taskService.updateTasks(dto, id), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            return new ResponseData<Task>(await this.taskService.updateTasks(dto, id), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<Task>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }
     }
 
     @Delete('/:id')
-    async deleteTasks(@Param('id') id: number): ResponseData<boolean> {
+    async deleteTasks(@Param('id') id: number): Promise<ResponseData<boolean>> {
         try {
-            return new ResponseData<boolean>(this.taskService.deleteTasks(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
+            return new ResponseData<boolean>(await this.taskService.deleteTasks(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS);
         } catch (error) {
             return new ResponseData<boolean>(null, HttpStatus.ERROR, HttpMessage.ERROR);
         }

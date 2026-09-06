@@ -8,7 +8,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 export class TaskService {
 
     constructor(
-       @InjectableRepository(Task)
+       @InjectRepository(Task)
        private taskRepo: Repository<Task>, 
     ) {}
 
@@ -26,7 +26,7 @@ export class TaskService {
     }
 
     async updateTasks(dto: TaskDTO, id: number): Promise<Task | null> {
-        await this.taskRepo.update({ id, dto });
+        await this.taskRepo.update( id, dto );
         return this.detailTasks(id);
     }
 
