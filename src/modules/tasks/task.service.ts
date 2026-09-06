@@ -1,36 +1,37 @@
 import { Injectable } from "@nestjs/common";
 import { TaskDTO } from "src/dto/task.dto";
 import { Task } from "src/models/task.model";
+import { Repository } from "typeorm";
+import { InjectableRepository } from "@nestjs/typeorm";
 
 @Injectable()
 export class TaskService {
 
-    private task: Task[] = [];
+    constructor(
+       @InjectableRepository(Task)
+       private taskRepo: Repository<Task>, 
+    ) {}
 
-    getTasks(): Task[] {
-        return this.task;
+    getTasks(): Promise<Task[]> {
+        return this.taskRepo.find();
     }
 
-    createTasks(dto: TaskDTO): Task {
+    createTasks(dto: TaskDTO): Promise<Task> {
         const task: Task = { id: Math.random(), ...dto };
-        this.task.push(task);
-        return task;
+        return this.taskSRepo.save(task);
     }
 
-    detailTasks(id: number) {
-        return this.task.find((p) => p.id === Number(id));
+    detailTasks(id: number): Promise<Task | null> {
+        return this.taskRepo.findOneBy({ id });
     }
 
-    updateTasks(dto: TaskDTO, id: number) {
-        const index = this.task.findIndex((p) => p.id === Number(id));
-        this.task[index] = { ...this.task[index], ...dto };
-        return this.task[index];
+    async updateTasks(dto: TaskDTO, id: number): Promise<Task | null> {
+        await this.taskRepo.update({ id, dto });
+        return this.detailTasks(id);
     }
 
-    deleteTasks(id: number): boolean {
-        const index = this.task.findIndex((p) => p.id === Number(id));
-        if (index === -1) return false;
-        this.task.splice(index, 1);
-        return true;
+    async deleteTasks(id: number): Promise<boolean> {
+        const result = await this.taskRepo.delete(id);
+        return (result.affected ?? 0) > 0;
     }
 }
