@@ -21,79 +21,31 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get()
-  async getTasks(): Promise<ResponseData<Task[]>> {
-    try {
-      return new ResponseData<Task[]>(
-        await this.taskService.getTasks(),
-        HttpStatus.SUCCESS,
-        HttpMessage.SUCCESS,
-      );
-    } catch (error) {
-      return new ResponseData<Task[]>(
-        null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
-      );
-    }
+  getTasks() {
+    return this.taskService.getTasks();
   }
 
   @Post()
-  async createTasks(@Body() dto: TaskDTO): Promise<ResponseData<Task>> {
-    try {
-      return new ResponseData<Task>(
-        await this.taskService.createTasks(dto),
-        HttpStatus.SUCCESS,
-        HttpMessage.SUCCESS,
-      );
-    } catch (error) {
-      return new ResponseData<Task>(null, HttpStatus.ERROR, HttpMessage.ERROR);
-    }
+  createTasks(@Body() dto: TaskDTO) {
+    return this.taskService.createTasks(dto);
   }
 
   @Get('/:id')
-  async detailTasks(@Param('id', ParseIntPipe) id: number): Promise<ResponseData<Task>> {
-    try {
-      return new ResponseData<Task>(
-        (await this.taskService.detailTasks(id)) ?? null,
-        HttpStatus.SUCCESS,
-        HttpMessage.SUCCESS,
-      );
-    } catch (error) {
-      return new ResponseData<Task>(null, HttpStatus.ERROR, HttpMessage.ERROR);
-    }
+  detailTasks(@Param('id', ParseIntPipe) id: number) {
+    return this.taskService.detailTasks(id);
   }
 
   @Put('/:id')
-  async updateTasks(
+  updateTasks(
     @Body() dto: TaskDTO,
-    @Param('id') id: number,
-  ): Promise<ResponseData<Task>> {
-    try {
-      return new ResponseData<Task>(
-        await this.taskService.updateTasks(dto, id),
-        HttpStatus.SUCCESS,
-        HttpMessage.SUCCESS,
-      );
-    } catch (error) {
-      return new ResponseData<Task>(null, HttpStatus.ERROR, HttpMessage.ERROR);
-    }
+    @Param('id', ParseIntPipe) id: number
+  ) {
+    return this.taskService.updateTasks(dto, id),
   }
 
-  @UseGuards(ApiKeyGuard)
   @Delete('/:id')
-  async deleteTasks(@Param('id', ParseIntPipe) id: number): Promise<ResponseData<boolean>> {
-    try {
-      return new ResponseData<boolean>(
-        await this.taskService.deleteTasks(id),
-        HttpStatus.SUCCESS,
-        HttpMessage.SUCCESS,
-      );
-    } catch (error) {
-      return new ResponseData<boolean>(
-        null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
-      );
-    }
+  @UseGuards(ApiKeyGuard)  
+  deleteTasks(@Param('id', ParseIntPipe) id: number) {
+    return this.taskService.deleteTasks(id),
   }
 }
