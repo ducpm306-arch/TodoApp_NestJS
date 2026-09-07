@@ -18,8 +18,10 @@ import { ApiKeyGuard } from 'src/guards/api-key.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Roles } from 'src/decorators/roles.decorator';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
-
+@ApiTags('tasks')
+@ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @Controller('task')
 export class TaskController {
@@ -50,8 +52,7 @@ export class TaskController {
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
-  @Delete('/:id')
-  @UseGuards(ApiKeyGuard)  
+  @Delete('/:id') 
   deleteTasks(@Param('id', ParseIntPipe) id: number) {
     return this.taskService.deleteTasks(id);
   }
