@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { TaskModule } from './modules/tasks/task.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -22,5 +24,13 @@ import { AuthModule } from './modules/auth/auth.module';
   ],
   controllers: [AppController],
   providers: [AppService],
+  ThrottlerModule.forRoot({
+    throttlers: [
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ],
+  }),
 })
 export class AppModule {}
