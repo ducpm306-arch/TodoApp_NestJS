@@ -13,7 +13,7 @@ import { Account } from 'src/models/account.model';
         PassportModule,
         JwtModule.register({
             secret: 'your-secret-key',
-            signOptions: { expiresIn: 'id'},
+            signOptions: { expiresIn: '1d'},
         }),
     ],
 })

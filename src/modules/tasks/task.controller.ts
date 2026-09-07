@@ -15,7 +15,10 @@ import { HttpStatus, HttpMessage } from 'src/global/globalEnum';
 import { TaskDTO } from 'src/dto/task.dto';
 import { Task } from 'src/models/task.model';
 import { ApiKeyGuard } from 'src/guards/api-key.guard';
+import { AuthGuard } from '@nestjs/passport';
 
+
+@UseGuards(AuthGuard('jwt'))
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}

@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto, LoginDto } from 'src/dto/auth.dto';
 
 @Controller('auth')
-export class AuthControlelr {
+export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post('register')
