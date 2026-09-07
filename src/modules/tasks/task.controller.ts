@@ -16,6 +16,8 @@ import { TaskDTO } from 'src/dto/task.dto';
 import { Task } from 'src/models/task.model';
 import { ApiKeyGuard } from 'src/guards/api-key.guard';
 import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/guards/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 
 @UseGuards(AuthGuard('jwt'))
@@ -46,6 +48,8 @@ export class TaskController {
     return this.taskService.updateTasks(dto, id);
   }
 
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   @Delete('/:id')
   @UseGuards(ApiKeyGuard)  
   deleteTasks(@Param('id', ParseIntPipe) id: number) {

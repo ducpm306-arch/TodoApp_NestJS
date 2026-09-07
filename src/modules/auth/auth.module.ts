@@ -13,9 +13,10 @@ import { Account } from 'src/models/account.model';
         PassportModule,
         JwtModule.register({
             secret: 'your-secret-key',
-            signOptions: { expiresIn: '1d'},
+            signOptions: { expiresIn: '1d' },
         }),
     ],
+    controllers: [AuthController],   
+    providers: [AuthService, JwtStrategy], 
 })
-
 export class AuthModule {}
