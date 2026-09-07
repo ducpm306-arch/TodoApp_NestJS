@@ -30,4 +30,4 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 }
-await bootstrap();
+bootstrap().then(() => console.log('App is running'));
