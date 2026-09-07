@@ -40,12 +40,12 @@ export class TaskController {
     @Body() dto: TaskDTO,
     @Param('id', ParseIntPipe) id: number
   ) {
-    return this.taskService.updateTasks(dto, id),
+    return this.taskService.updateTasks(dto, id);
   }
 
   @Delete('/:id')
   @UseGuards(ApiKeyGuard)  
   deleteTasks(@Param('id', ParseIntPipe) id: number) {
-    return this.taskService.deleteTasks(id),
+    return this.taskService.deleteTasks(id);
   }
 }
