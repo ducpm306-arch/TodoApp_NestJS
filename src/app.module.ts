@@ -9,28 +9,17 @@ import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '123456789',
-      database: 'todoapp',
-      autoLoadEntities: true,
-      synchronize: true,
-    }),
+    TypeOrmModule.forRoot({ ... }),
     TaskModule,
     AuthModule,
+    ThrottlerModule.forRoot({      
+      throttlers: [{ ttl: 60000, limit: 10 }],
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService],
-  ThrottlerModule.forRoot({
-    throttlers: [
-      {
-        ttl: 60000,
-        limit: 10,
-      },
-    ],
-  }),
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+  ],
 })
 export class AppModule {}
